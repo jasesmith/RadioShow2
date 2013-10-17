@@ -1,0 +1,315 @@
+@import "_variables.less";
+@import "_mixins.less";
+
+@showHeight:70vh;
+
+/* The important parts */
+.radioshow {
+	position:relative;
+	clear:both;
+	height:@showHeight;
+	width:100%;
+	text-align:center;
+	-webkit-backface-visibility: hidden;
+	
+	.cue {
+		display:inline-block;
+		position:relative;
+		box-shadow:0 0 0 2px @base-border;
+		border-radius:1.5rem;
+		padding:.65rem;
+		z-index:100;
+		cursor:pointer;
+		background: fadeout(@base-bg,65%);
+		color:fadeout(@base-border, 35%);
+		text-shadow:0 1px 1px #FFF;
+		margin:0 .25rem;
+		text-align:center;
+		line-height:1em;
+		.transition(background, .35s,.1s);
+		
+		&:hover {
+			background: fadeout(@accent,65%);
+		}
+		
+		span {
+			position:absolute;
+			top:0;
+			left:0;
+			right:0;
+			bottom:0;
+			border-top:1px solid fadeout(#FFF,35%);
+			border-radius:50%;
+			padding-top: .2rem;
+			display: block;
+		}
+	}
+	
+	.shot {
+		position:absolute;
+		top:3em;
+		left:0;
+		right:0;
+		bottom:0;
+		border-radius:.5em;
+		background: @base no-repeat 50% 50%;
+		background-size: cover;
+		box-shadow:0 0 0 3px fadeout(@base-border,65%) inset, 0 1em 2em 0em  fadeout(#000,85%);
+		z-index:1;
+		opacity:0;
+		overflow:hidden;
+		
+		img {
+			width:100%;
+		}
+		.text {
+			position:absolute;
+			text-align:left;
+			border-radius:0;
+			background:fadeout(#000,45%);
+			color: @bg;
+			overflow-y:auto;
+			
+			.padme {
+				padding:2em;
+			}
+			
+			.next {
+				float:right;
+				margin-left:1em;
+			}
+			
+			h2 {
+				margin-bottom:1em;
+				color: @accent;
+				text-shadow:0 0px 2px fadeout(#000, 35%);
+			}
+			
+			p {
+				font-size:1.3em;
+			}
+		}
+	}
+	
+	.trigger {
+		position:absolute;
+		left:50%;
+		top:50%;
+		margin:0 0 0 -.5em;
+		opacity:0;
+		z-index:0;
+	}
+	
+	.trigger:checked + .cue {
+		background:@accent;
+		color:#FFF;
+		text-shadow:0 -1px 1px @base-border;
+	}
+	
+	.trigger:checked + .cue:nth-child(n) + .shot {
+		box-shadow:0 0 0 .2em fadeout(#000,80%) inset, 0 3em 4em -2em  fadeout(#000,40%);
+		z-index:2;
+		opacity:1;
+	}
+}
+
+.radioshow-fade {
+	.shot {
+		.transition(opacity, .75s);
+	}
+}
+
+.radioshow-scale {
+	.shot {
+		.scale(.6);
+		.transition(all, .75s);
+	}
+	.trigger:checked + .cue:nth-child(n)  + .shot {
+		.scale(1);
+	}
+}
+
+.radioshow-north .text {
+	right:0;
+	top:0;
+	left:0;
+	height:35%;
+}
+.radioshow-south .text {
+	right:0;
+	bottom:0;
+	left:0;
+	height:35%;
+}
+.radioshow-east .text {
+	right:0;
+	top:0;
+	bottom:0;
+	width:35%;
+}
+.radioshow-west .text {
+	left:0;
+	top:0;
+	bottom:0;
+	width:35%;
+}
+.radioshow-up {
+	.text {
+		right:0;
+		top:100%;
+		left:0;
+		height:35%;
+		.transition(top, .85s, .15s);
+	}
+	
+	&:hover .text{
+		top:65%;
+	}
+}
+
+.radioshow-down {
+	.text {
+		right:0;
+		bottom:100%;
+		left:0;
+		height:35%;
+		.transition(bottom, .85s, .15s);
+	}
+	
+	&:hover .text {
+		bottom:65%;
+	}
+}
+
+.radioshow-back {
+	.text {
+		top:0;
+		bottom:0;
+		left:100%;
+		width:35%;
+		.transition(left, .85s, .15s);
+	}
+	
+	&:hover .text {
+		left:65%;
+	}
+}
+
+.radioshow-over {
+	.text {
+		top:0;
+		right:100%;
+		bottom:0;
+		width:35%;
+		.transition(right, .85s, .15s);
+	}
+	
+	&:hover .text {
+		right:65%;
+	}
+}
+
+/* radio button title tooltips */
+[data-title]:before,
+[data-title]:after {
+	display:none;
+	position:absolute;
+}
+
+[data-title]:before {
+	content:attr(data-title);
+	width:10em;
+	left:-4.5em;
+	bottom:160%;
+	background:fadeout(#000,35%);
+	color:#FFF;
+	padding:.5rem;
+	box-shadow:0 0 .5rem fadeout(@base-bg,50%);
+	border-radius:.35rem;
+	white-space:normal;
+	text-align:center;
+	line-height:1.45em;
+	font-size:.8rem;
+	text-shadow:0 -1px 1px #000;
+	z-index:1;
+}
+[data-title]:after {
+	content:'';
+	top:-60%;
+	left:.25em;
+	border-style:solid;
+	border-color:fadeout(#000,35%) transparent transparent transparent;
+	border-width:.5rem .5rem 0 .5rem;
+	width:0;
+	height:0;
+	z-index:2;
+}
+
+[data-title]:hover:before,
+[data-title]:hover:after {
+	display:block;
+}
+
+/* Position overrides */
+.radioshow-below {
+	height:auto;
+	padding-top:@showHeight;
+	
+	.shot {
+		top:0;
+		bottom:3em;
+	}
+	.trigger {
+		background-color: fadeout(@base-border,45%);
+	}
+	
+	[data-title]:before {
+		top:160%;
+		bottom:auto;
+	}
+	
+	[data-title]:after {
+		top:auto;
+		bottom:-60%;
+		border-color:transparent transparent fadeout(#000,35%) transparent;
+		border-width:0 .5rem .5rem .5rem;
+	}
+}
+
+.radioshow-left {
+	text-align:left;
+	
+	[data-title]:before {
+		text-align:left;
+		left:-.5em;
+		right:auto;
+	}
+	
+	[data-title]:after {
+		left:.25em;
+		right:auto;
+	}
+}
+
+.radioshow-right {
+	text-align:right;
+	
+	[data-title]:before {
+		text-align:right;
+		left:auto;
+		right:-.5em;
+	}
+	
+	[data-title]:after {
+		left:auto;
+		right:.25em;
+	}
+}
+
+.radioshow-hide {
+	.text,
+	[data-title]:hover:before,
+	[data-title]:hover:after {
+		display:none;
+	}
+}
