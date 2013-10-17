@@ -4,13 +4,24 @@
 @showHeight:70vh;
 
 /* The important parts */
+.radioshow-large {
+	height:@showHeight;
+	width:(@showHeight*1.5);
+}
+.radioshow-medium {
+	width:@showHeight;
+	height:(@showHeight*.8);
+}
+
 .radioshow {
 	position:relative;
 	clear:both;
-	height:@showHeight;
-	width:100%;
 	text-align:center;
 	-webkit-backface-visibility: hidden;
+	
+	+.radioshow {
+		margin-top:1.5em;
+	}
 	
 	.cue {
 		display:inline-block;

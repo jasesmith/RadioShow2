@@ -1,11 +1,20 @@
 /* The important parts */
+.radioshow-large {
+  height: 70vh;
+  width: 105vh;
+}
+.radioshow-medium {
+  width: 70vh;
+  height: 56vh;
+}
 .radioshow {
   position: relative;
   clear: both;
-  height: 70vh;
-  width: 100%;
   text-align: center;
   -webkit-backface-visibility: hidden;
+}
+.radioshow + .radioshow {
+  margin-top: 1.5em;
 }
 .radioshow .cue {
   display: inline-block;

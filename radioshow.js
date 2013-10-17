@@ -15,19 +15,19 @@
 	
 	// Channel Container
 	Templates.channel = [
-			'<article id="{{channel}}">',
+			'<article id="{{channel}}" class="{{size}}">',
 				'{{shots}}',
 			'</article>'
 			].join("\n");
 	
 	// Channel Shots
 	Templates.shot = [
-			'<input class="trigger" type="radio" name="flip" id="flip-{{shot}}" {{checked}} />',
-			'<label class="cue" for="flip-{{shot}}" data-title="{{headline}}"><span>{{shot}}</span></label>',
+			'<input class="trigger" type="radio" name="{{channel}}-flip" id="{{channel}}-flip-{{shot}}" {{checked}} />',
+			'<label class="cue" for="{{channel}}-flip-{{shot}}" data-title="{{headline}}"><span>{{shot}}</span></label>',
 			'<div class="shot" style="background-image:url({{imageURL}});">',
 				'<div class="text">',
 					'<div class="padme">',
-						'<label class="next button" for="flip-{{nextShot}}">{{buttonText}}</label>',
+						'<label class="next button" for="{{channel}}-flip-{{nextShot}}">{{buttonText}}</label>',
 						'<h2><span class="shade">{{shot}}.</span> {{headline}}</h2>',
 						'{{desc}}',
 					'</div>',
@@ -87,10 +87,13 @@
 							}];
 	
 	// Channel data, simulate AJAX result
-	var channels = [{
-					name: "Example",
-					intro: "Hello World",
-					shots: [{
+	var channels = [
+					{
+						name: "Example",
+						intro: "Hello World",
+						size: "large",
+						shots: [
+							{
 								headline: 	"Helvetica",
 								desc:		"A pure type face, excellent for building awesome robot shirts.<br><br><a href=\"http://chopshopstore.com/index.php/helbotica.html\" target=\"_blank\">Want one?</a>"
 							},
@@ -117,8 +120,33 @@
 							{
 								headline: 	"Everything Has Been Made",
 								desc:		"And the walls kept tumbling down in the city that we love. Great clouds roll over the hills, bringing darkness from above.<br><br><em>&mdash; Bastille</em>"
-							}]
-					}];
+							}
+						]
+					},
+					{
+						name: "Example2",
+						intro: "Hello World",
+						size: "medium",
+						shots: [
+							{
+								headline: 	"Coffee Time",
+								desc:		"Drinking coffee with a friend is a good thing.<br><br>Invest in human beans."
+							},
+							{
+								headline: 	"Fishermans Are Bad Ass",
+								desc:		"&ldquo;My big fish must be somewhere.&rdquo;<br><br>&mdash; Ernest Hemingway, <em>The Old Man and the Sea</em>"
+							},
+							{
+								headline: 	"Everyone Loves A Good Bokeh",
+								desc:		"Blur that light source and ramp-up you some saturations!"
+							},
+							{
+								headline: 	"Everything Has Been Made",
+								desc:		"And the walls kept tumbling down in the city that we love. Great clouds roll over the hills, bringing darkness from above.<br><br><em>&mdash; Bastille</em>"
+							}
+						]
+					}
+				];
 	
 	// CONTROL BAR Construction
 	controlBar.innerHTML = '';
@@ -161,6 +189,7 @@
 			var imageURL = 'images/'+ channelNameSys + '-' + shot + '.jpg';
 			
 			_shots += Templates.shot
+				.replace( /{{channel}}/g, channelNameSys)
 				.replace( /{{shot}}/g, shot)
 				.replace( /{{nextShot}}/g, nextShot)
 				.replace( /{{headline}}/g, channels[c].shots[i].headline)
@@ -172,6 +201,7 @@
 		
 		showcase.innerHTML += Templates.channel
 			.replace( /{{channel}}/g, channelNameSys)
+			.replace( /{{size}}/g, prefix + '-' + channels[c].size)
 			.replace( /{{shots}}/g, _shots);
 	}
 	
