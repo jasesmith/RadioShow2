@@ -1,13 +1,27 @@
 ;(function() {
 	
-	// Some presets
-	var prefix = 'radioshow';
-	var state = prefix;
+	if(typeof(channels) === "undefined" || channels === null) {
+		$('#control-bar').addClass('error').text('ERROR: There are no channels defined.');
+		
+		return false;
+	}
 	
-	// get the control bar element
-	var controlBar = document.querySelector('.control-bar');
+	// Some settings
+	var settings = {
+				prefix: 'radioshow',
+				showImgLink: true,
+				buttonPrev: '<i class="icon-circle-arrow-left icon-large"></i>',
+				buttonEnd: '<i class="icon-circle-arrow-left icon-large"></i>',
+				buttonNext: '<i class="icon-circle-arrow-right icon-large"></i>',
+				buttonStart: '<i class="icon-circle-arrow-right icon-large"></i>'
+				};
 	
-	// get the show container
+	var classnames = settings.prefix;
+	
+	// Get the control bar container element
+	var controlBar = document.querySelector('#control-bar');
+	
+	// get the showcase container element
 	var showcase = document.querySelector('#showcase');
 	
 	// TEMPLATES
@@ -15,7 +29,7 @@
 	
 	// Channel Container
 	Templates.channel = [
-			'<article id="{{channel}}" class="{{size}}">',
+			'<article id="{{channel}}" class="{{size}}" data-size="{{rawSize}}">',
 				'{{shots}}',
 			'</article>'
 			].join("\n");
@@ -27,9 +41,11 @@
 			'<div class="shot" style="background-image:url({{imageURL}});">',
 				'<div class="text">',
 					'<div class="padme">',
-						'<label class="next button" for="{{channel}}-flip-{{nextShot}}">{{buttonText}}</label>',
-						'<h2><span class="shade">{{shot}}.</span> {{headline}}</h2>',
-						'{{desc}}',
+						'<label class="prev" for="{{channel}}-flip-{{prevShot}}">{{buttonPrev}}</label>',
+						'<label class="next" for="{{channel}}-flip-{{nextShot}}">{{buttonNext}}</label>',
+						'<h2><span class="shade hidden">{{shot}}.</span> {{headline}}</h2>',
+						'<p>{{desc}}</p>',
+						'<p{{showLink}}><small><a href="{{imageURL}}" target="_blank"><i class="icon-search"></i> view image</a></small></p>',
 					'</div>',
 				'</div>',
 			'</div>'
@@ -86,129 +102,80 @@
 								active: "west"
 							}];
 	
-	// Channel data, simulate AJAX result
-	var channels = [
-					{
-						name: "Example",
-						intro: "Hello World",
-						size: "large",
-						shots: [
-							{
-								headline: 	"Helvetica",
-								desc:		"A pure type face, excellent for building awesome robot shirts.<br><br><a href=\"http://chopshopstore.com/index.php/helbotica.html\" target=\"_blank\">Want one?</a>"
-							},
-							{
-								headline: 	"Coffee Time",
-								desc:		"Drinking coffee with a friend is a good thing.<br><br>Invest in human beans."
-							},
-							{
-								headline: 	"Fishermans Are Bad Ass",
-								desc:		"&ldquo;My big fish must be somewhere.&rdquo;<br><br>&mdash; Ernest Hemingway, <em>The Old Man and the Sea</em>"
-							},
-							{
-								headline: 	"Flippity-flops!",
-								desc:		"Nothin' beats a broked-in pair of flip-flops."
-							},
-							{
-								headline: 	"Everyone Loves A Good Bokeh",
-								desc:		"Blur that light source and ramp-up you some saturations!"
-							},
-							{
-								headline: 	"Autumn Spirals And Winter Is Inevitable",
-								desc:		"Behind the sweet summer fade, and on a coast not far away... Sometimes we glide, sometimes we fall, and there are times we don't get up at all.<br><br><em>&mdash; The Submarines</em>"
-							},
-							{
-								headline: 	"Everything Has Been Made",
-								desc:		"And the walls kept tumbling down in the city that we love. Great clouds roll over the hills, bringing darkness from above.<br><br><em>&mdash; Bastille</em>"
-							}
-						]
-					},
-					{
-						name: "Example2",
-						intro: "Hello World",
-						size: "medium",
-						shots: [
-							{
-								headline: 	"Coffee Time",
-								desc:		"Drinking coffee with a friend is a good thing.<br><br>Invest in human beans."
-							},
-							{
-								headline: 	"Fishermans Are Bad Ass",
-								desc:		"&ldquo;My big fish must be somewhere.&rdquo;<br><br>&mdash; Ernest Hemingway, <em>The Old Man and the Sea</em>"
-							},
-							{
-								headline: 	"Everyone Loves A Good Bokeh",
-								desc:		"Blur that light source and ramp-up you some saturations!"
-							},
-							{
-								headline: 	"Everything Has Been Made",
-								desc:		"And the walls kept tumbling down in the city that we love. Great clouds roll over the hills, bringing darkness from above.<br><br><em>&mdash; Bastille</em>"
-							}
-						]
-					}
-				];
-	
 	// CONTROL BAR Construction
 	controlBar.innerHTML = '';
 	
-	for( var i=0; i < displayControls.length; i++ ) {
+	for(var i = 0; i < displayControls.length; i++) {
 		
 		var options = '';
-		state += ' ' + prefix + '-' + displayControls[i].active;
+		classnames += ' ' + settings.prefix + '-' + displayControls[i].active;
 		
 		for(var o=0; o < displayControls[i].options.length; o++) {
 			var option = displayControls[i].options[o];
 			var active = displayControls[i].active == option ? ' class="active"' : '';
 			
 			options += Templates.controlOption
-				.replace( /{{option}}/g, option)
-				.replace( /{{active}}/g, active);
+				.replace(/{{option}}/g, option)
+				.replace(/{{active}}/g, active);
 		}
 		
 		controlBar.innerHTML += Templates.controlModule
-			.replace( /{{key}}/g, displayControls[i].key)
-			.replace( /{{name}}/g, displayControls[i].name)
-			.replace( /{{options}}/g, options)
-			.replace( /{{prefix}}/g, prefix);
+			.replace(/{{key}}/g, displayControls[i].key)
+			.replace(/{{name}}/g, displayControls[i].name)
+			.replace(/{{options}}/g, options)
+			.replace(/{{prefix}}/g, settings.prefix);
 	}
 	
 	// CHANNELS/SHOWCASE Construction
 	showcase.innerHTML = '';
 	
-	for(var c = 0;c < channels.length; c++) {
+	for(var c = 0; c < channels.length; c++) {
 		var count = channels[c].shots.length;
 		var _shots = '';
 		var channelName = channels[c].name;
 		var channelNameSys = channelName.toLowerCase().replace(/ /g,'-');
+		var showLink = channels[c].showImgLink ? '' : ' class="hidden"'
 		
-		for(var i = 0;i < count; i++) {
-			var buttonText = i == count-1 ? 'Start Over' : 'Next';
-			var checked = i == 0 ? ' checked="checked"' : '';
-			var shot =	i+1;
+		for(var s = 0;s < count; s++) {
+			var shot =	s+1;
+			var checked = shot == 1 ? ' checked="checked"' : '';
+			
+			var prevShot = shot == 1 ? count : shot-1;
 			var nextShot = shot == count ? 1 : shot+1;
+			var buttonPrev = shot == 1 ? settings.buttonEnd : settings.buttonPrev;
+			var buttonNext = shot == count ? settings.buttonStart : settings.buttonNext;
+			
+			
 			var imageURL = 'images/'+ channelNameSys + '-' + shot + '.jpg';
 			
 			_shots += Templates.shot
-				.replace( /{{channel}}/g, channelNameSys)
-				.replace( /{{shot}}/g, shot)
-				.replace( /{{nextShot}}/g, nextShot)
-				.replace( /{{headline}}/g, channels[c].shots[i].headline)
-				.replace( /{{desc}}/g, channels[c].shots[i].desc)
-				.replace( /{{imageURL}}/g, imageURL)
-				.replace( /{{buttonText}}/g, buttonText)
-				.replace( /{{checked}}/g, checked);
+				.replace(/{{channel}}/g, channelNameSys)
+				.replace(/{{shot}}/g, shot)
+				.replace(/{{nextShot}}/g, nextShot)
+				.replace(/{{prevShot}}/g, prevShot)
+				.replace(/{{showLink}}/g, showLink)
+				.replace(/{{headline}}/g, channels[c].shots[s].headline)
+				.replace(/{{desc}}/g, channels[c].shots[s].desc)
+				.replace(/{{imageURL}}/g, imageURL)
+				.replace(/{{buttonPrev}}/g, buttonPrev)
+				.replace(/{{buttonNext}}/g, buttonNext)
+				.replace(/{{checked}}/g, checked);
 		}
 		
 		showcase.innerHTML += Templates.channel
-			.replace( /{{channel}}/g, channelNameSys)
-			.replace( /{{size}}/g, prefix + '-' + channels[c].size)
-			.replace( /{{shots}}/g, _shots);
+			.replace(/{{channel}}/g, channelNameSys)
+			.replace(/{{size}}/g, settings.prefix + '-' + channels[c].size)
+			.replace(/{{rawSize}}/g, channels[c].size)
+			.replace(/{{shots}}/g, _shots);
 	}
 	
 	
 	// jQuery magics
-	$('#showcase article').addClass(state);
+	$('#showcase article').addClass(classnames);
 	
+	//
+	// THIS IS FOR THE CONTROL BAR DEMO
+	//
 	// hide modules with no active options as they are triggered by other module options
 	$('[data-module]').each(function(){
 		if($(this).find('li.active').length == 0) {
@@ -224,25 +191,63 @@
 		var control = $(this).data('control');
 		
 		if(control == 'move') {
-			$('[data-module=placement], [data-module=movement]').find('li').removeClass('active');
-			$('[data-module=placement]').hide();
-			$('[data-module=movement]').show().find('li[data-control]').first().addClass('active');
-		}
-		if(control == 'dock') {
-			$('[data-module=placement], [data-module=movement]').find('li').removeClass('active');
-			$('[data-module=placement]').show().find('li[data-control]').first().addClass('active');
-			$('[data-module=movement]').hide().find('.active').removeClass('active');
-		}
-		if(control == 'hide') {
-			$('[data-module=placement], [data-module=movement]').find('li').removeClass('active');
-			$('[data-module=placement]').hide().find('.active').removeClass('active');
-			$('[data-module=movement]').hide().find('.active').removeClass('active');
+			$('[data-module=placement], [data-module=movement]')
+				.find('li')
+				.removeClass('active');
+			
+			$('[data-module=placement]')
+				.hide();
+			
+			$('[data-module=movement]')
+				.show()
+				.find('li[data-control]')
+				.first()
+				.addClass('active');
 		}
 		
-		state = prefix;
+		if(control == 'dock') {
+			$('[data-module=placement], [data-module=movement]')
+				.find('li')
+				.removeClass('active');
+			
+			$('[data-module=placement]')
+				.show()
+				.find('li[data-control]')
+				.first()
+				.addClass('active');
+			
+			$('[data-module=movement]')
+				.hide()
+				.find('.active')
+				.removeClass('active');
+		}
+		
+		if(control == 'hide') {
+			$('[data-module=placement], [data-module=movement]')
+				.find('li')
+				.removeClass('active');
+			
+			$('[data-module=placement]')
+				.hide()
+				.find('.active')
+				.removeClass('active');
+			
+			$('[data-module=movement]')
+				.hide()
+				.find('.active')
+				.removeClass('active');
+		}
+		
+		// for demo: restock the classnames
+		classnames = settings.prefix;
+		
 		$('[data-control].active').each(function(){
-			state += ' ' + prefix + '-' + $(this).data('control');
+			classnames += ' ' + settings.prefix + '-' + $(this).data('control');
 		});
-		$('#showcase article').removeClass().addClass(state);
+		
+		$('#showcase article').each(function(){
+			classnames += ' ' + settings.prefix + '-' + $(this).data('size');
+			$(this).removeClass().addClass(classnames);
+		});
 	});
 })();

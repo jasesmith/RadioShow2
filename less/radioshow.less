@@ -1,16 +1,21 @@
 @import "_variables.less";
 @import "_mixins.less";
 
-@showHeight:70vh;
+@showWidth:75vw;
+@showHeight:65vh;
 
 /* The important parts */
 .radioshow-large {
+	width:@showWidth;
 	height:@showHeight;
-	width:(@showHeight*1.5);
 }
 .radioshow-medium {
-	width:@showHeight;
+	width:(@showWidth*.8);
 	height:(@showHeight*.8);
+}
+.radioshow-small {
+	width:(@showWidth*.5);
+	height:(@showHeight*.5);
 }
 
 .radioshow {
@@ -20,7 +25,7 @@
 	-webkit-backface-visibility: hidden;
 	
 	+.radioshow {
-		margin-top:1.5em;
+		margin-top:5em;
 	}
 	
 	.cue {
@@ -80,24 +85,39 @@
 			background:fadeout(#000,45%);
 			color: @bg;
 			overflow-y:auto;
+			min-width:220px;
+			min-height:120px;
 			
 			.padme {
-				padding:2em;
+				padding:1em;
 			}
 			
-			.next {
-				float:right;
-				margin-left:1em;
+			label {
+				padding:0;
+				color:@accent;
+				&:hover {
+					color:lighten(@accent,15%);
+				}
+				&.prev {
+					float:left;
+					margin:.1em .5em 1em 0;
+				}
+				&.next {
+					float:right;
+					margin:.1em 0 1em .5em;
+				}
 			}
 			
 			h2 {
-				margin-bottom:1em;
+				clear:both;
+				margin:0 0 .5em 0;
 				color: @accent;
 				text-shadow:0 0px 2px fadeout(#000, 35%);
 			}
 			
 			p {
-				font-size:1.3em;
+				font-size:1.1em;
+				margin:0 0 1em 0;
 			}
 		}
 	}
@@ -257,7 +277,9 @@
 }
 
 [data-title]:hover:before,
-[data-title]:hover:after {
+[data-title]:hover:after,
+[data-title]:active:before,
+[data-title]:active:after {
 	display:block;
 }
 

@@ -1,4 +1,14 @@
 @import url(http://fonts.googleapis.com/css?family=Sansita+One);
+
+@import url(http://star29.com/core/c/font-awesome/css/font-awesome.min.css);
+/* Font Awesome 3.2 */
+@font-face {
+  font-family: 'FontAwesome';
+  src: url(http://star29.com/core/c/font-awesome/font/fontawesome-webfont.eot);
+  src: url(http://star29.com/core/c/font-awesome/font/fontawesome-webfont.eot?#iefix) format("embedded-opentype"), url(http://star29.com/core/c/font-awesome/font/fontawesome-webfont.woff) format("woff"), url(http://star29.com/core/c/font-awesome/font/fontawesome-webfont.ttf) format("truetype"), url(http://star29.com/core/c/font-awesome/font/fontawesome-webfont.svg#FontAwesome) format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
 /* STYLES */
 body {
   margin: 0;
@@ -22,6 +32,9 @@ body {
   color: #FFFFFF;
   text-shadow: none;
 }
+.screen {
+  opacity: .8;
+}
 .shade {
   opacity: .5;
 }
@@ -43,7 +56,7 @@ a {
   color: #ff4da6;
 }
 a:hover {
-  color: #FF99CC;
+  color: #ff99cc;
 }
 header {
   color: #63696f;
@@ -61,7 +74,7 @@ nav ul {
 }
 nav li {
   list-style: none;
-  margin: 0 0 0 .2em;
+  margin: 0 0 0 .3em;
   padding: .1em .2em;
   line-height: 1.1em;
   border-radius: .25em;
@@ -125,6 +138,9 @@ section footer img {
   padding: .5em 1em;
   border-radius: .5em;
   font-size: .825rem;
+}
+.control-bar.error {
+  color: #ca1e34;
 }
 .button {
   position: relative;
