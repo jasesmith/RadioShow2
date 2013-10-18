@@ -1,10 +1,15 @@
-;(function() {
+;(function($, window, document) {
 	
-	if(typeof(channels) === "undefined" || channels === null) {
-		$('#control-bar').addClass('error').text('ERROR: There are no channels defined.');
+	$(function() {
 		
-		return false;
-	}
+		// The DOM is ready!
+		if(typeof(channels) === "undefined" || channels === null) {
+			$('#control-bar').addClass('error').text('ERROR: There are no channels defined.');
+			
+			return false;
+		}
+		
+	});
 	
 	// Some settings
 	var settings = {
@@ -29,6 +34,7 @@
 	
 	// Channel Container
 	Templates.channel = [
+			'<header>{{intro}}</header>',
 			'<article id="{{channel}}" class="{{size}}" data-size="{{rawSize}}">',
 				'{{shots}}',
 			'</article>'
@@ -86,12 +92,12 @@
 							{
 								key: 'behavior',
 								name: "Caption",
-								options: ["move","dock","hide"],
+								options: ["slide","dock","hide"],
 								active: "dock"
 							},
 							{
 								key: 'movement',
-								name: "Move",
+								name: "Slide",
 								options: ["over","down","back","up"],
 								active: ""
 							},
@@ -166,7 +172,8 @@
 			.replace(/{{channel}}/g, channelNameSys)
 			.replace(/{{size}}/g, settings.prefix + '-' + channels[c].size)
 			.replace(/{{rawSize}}/g, channels[c].size)
-			.replace(/{{shots}}/g, _shots);
+			.replace(/{{shots}}/g, _shots)
+			.replace(/{{intro}}/g, '');
 	}
 	
 	
@@ -190,7 +197,7 @@
 		
 		var control = $(this).data('control');
 		
-		if(control == 'move') {
+		if(control == 'slide') {
 			$('[data-module=placement], [data-module=movement]')
 				.find('li')
 				.removeClass('active');
@@ -250,4 +257,4 @@
 			$(this).removeClass().addClass(classnames);
 		});
 	});
-})();
+})(window.jQuery, window, document);
