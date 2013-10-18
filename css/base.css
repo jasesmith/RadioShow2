@@ -1,4 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Sansita+One);
+@import url(http://fonts.googleapis.com/css?family=Titan+One);
 
 @import url(http://star29.com/core/c/font-awesome/css/font-awesome.min.css);
 /* Font Awesome 3.2 */
@@ -40,7 +40,7 @@ body {
   opacity: .5;
 }
 .mark {
-  font-family: "Sansita One", arial, freesans, clean, sans-serif;
+  font-family: "Titan One", arial, freesans, clean, sans-serif;
 }
 h1,
 h2,
