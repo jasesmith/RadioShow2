@@ -1,14 +1,5 @@
 @import url(http://fonts.googleapis.com/css?family=Titan+One);
 
-@import url(http://star29.com/core/c/font-awesome/css/font-awesome.min.css);
-/* Font Awesome 3.2 */
-@font-face {
-  font-family: 'FontAwesome';
-  src: url(http://star29.com/core/c/font-awesome/font/fontawesome-webfont.eot);
-  src: url(http://star29.com/core/c/font-awesome/font/fontawesome-webfont.eot?#iefix) format("embedded-opentype"), url(http://star29.com/core/c/font-awesome/font/fontawesome-webfont.woff) format("woff"), url(http://star29.com/core/c/font-awesome/font/fontawesome-webfont.ttf) format("truetype"), url(http://star29.com/core/c/font-awesome/font/fontawesome-webfont.svg#FontAwesome) format("svg");
-  font-weight: normal;
-  font-style: normal;
-}
 /* STYLES */
 body {
   margin: 0;
