@@ -1,8 +1,7 @@
 ;(function($, window, document) {
 	
-	$(function() {
+	$(function() { // The DOM is ready!
 		
-		// The DOM is ready!
 		if(typeof(channels) === "undefined" || channels === null) {
 			$('#control-bar').addClass('error').text('ERROR: There are no channels defined.');
 			
