@@ -120,12 +120,14 @@ a {
   -ms-transition: text-shadow 0.5s ease;
 }
 
+/*
 a:hover, a:focus {text-decoration: underline;}
 
 footer a {
   color: #F2F2F2;
   text-decoration: underline;
 }
+*/
 
 em {
   font-style: italic;
@@ -362,7 +364,7 @@ Full-Width Styles
 }
 
 #main_content {
-  padding-top: 40px;
+  padding-bottom:70px;
 }
 
 #footer_wrap {
