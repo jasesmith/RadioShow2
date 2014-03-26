@@ -34,7 +34,7 @@ var channels = [
 				desc:		"And the walls kept tumbling down in the city that we love. Great clouds roll over the hills, bringing darkness from above.<br><br><em>&mdash; Bastille</em>"
 			}
 		]
-	},
+	}/*,
 	{
 		name: "Example2",
 		size: "medium",
@@ -57,5 +57,5 @@ var channels = [
 				desc:		"And the walls kept tumbling down in the city that we love. Great clouds roll over the hills, bringing darkness from above.<br><br><em>&mdash; Bastille</em>"
 			}
 		]
-	}
+	}*/
 ];
