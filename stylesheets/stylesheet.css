@@ -279,15 +279,22 @@ Full-Width Styles
   top:0;
   right: 10px;
   z-index: 10;
-  padding: 10px 50px 10px 10px;
+  padding: 10px;
   color: #fff;
-  background: url('../images/blacktocat.png') #0090ff no-repeat 95% 50%;
-  font-weight: 700;
+  /* background: url('../images/blacktocat.png') #0090ff no-repeat 95% 50%; */
+  background: #66ccff;
+  font-weight: 400;
   box-shadow: 0 0 10px rgba(0,0,0,.5);
   border-bottom-left-radius: 2px;
   border-bottom-right-radius: 2px;
+  -webkit-transition:all .35s;
+  -moz-transition:all .35s;
+  transition:all .35s;
 }
 
+#forkme_banner:hover {
+  background:#ff4da6;
+}
 #header_wrap {
   background: #212124;
 /*
