@@ -270,6 +270,7 @@ Full-Width Styles
   position: relative;
   padding: 20px 10px;
   margin: 0 auto;
+  max-width:80%;
 }
 
 #forkme_banner {
@@ -298,9 +299,11 @@ Full-Width Styles
 */
 }
 
+/*
 #header_wrap .inner {
   padding: 20px 10px 20px 10px;
 }
+*/
 
 #project_title {
   margin: 0;
